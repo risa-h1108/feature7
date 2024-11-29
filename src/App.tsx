@@ -1,10 +1,10 @@
-import { Header } from "./pages/Header.js";
-import { Home } from "./components/Home.js";
-import { Detail } from "./components/Detail.js";
+import { Header } from "./pages/Header";
+import { Home } from "./components/Home";
+import { Detail } from "./components/Detail";
 import { Route, Routes } from "react-router-dom";
-import { Contact } from "./components/Contact.js";
+import { Contact } from "./components/Contact";
 
-export const App = () => {
+export const App: React.FC = () => {
   return (
     <>
       <Header />

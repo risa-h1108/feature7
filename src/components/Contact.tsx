@@ -2,20 +2,30 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import classes from "../styles/Contact.module.css";
 
-export const Contact = () => {
+// フォームデータの型を定義
+interface FormValues {
+  name: string;
+  email: string;
+  message: string;
+}
+
+//React.FC（reactできまってる部品）:Reactのコンポーネント(部品)を定義する際に使われる型の一つで、「Functional Component（関数型コンポーネント）」を表します。
+//TypeScriptを使ってReactコンポーネントを開発する際に、コンポーネントの型を明示的に指定するために使用します。
+//React.FCを使用すると、デフォルトで`children`プロパティを受け取ることができます。
+export const Contact: React.FC = () => {
   //フォームの初期化したらリセットし、フォームがエラーを含んでいないか送信中かを示す。formStateは、フォームの現在の状態を保持します。`errors`は、バリデーションエラーの情報を含み、`isSubmitting`はフォームが送信中であるかどうかを示します。
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm();
+  } = useForm<FormValues>(); //<FormValues>の型でuseFormの情報を取得してる（reset,errorsとかで使う）
 
   //tryブロックの中にエラーが発生するかもしれないコードを記述し、`catch`ブロックでそのエラーをキャッチして処理する
   //非同期処理：async...await fetch()
   //res:リクエストの結果（レスポンス）が格納される
   //onSubmit は、ユーザーがフォームを送信したときに実行される関数
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: FormValues) => {
     try {
       const res = await fetch(
         "https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/contacts",

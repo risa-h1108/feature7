@@ -2,9 +2,18 @@ import { useEffect, useState } from "react";
 import classes from "../styles/Home.module.css";
 import { Link } from "react-router-dom";
 
-export const Home = () => {
+interface Post {
+  id: number;
+  title: string;
+  thumbnailUrl: string;
+  createdAt: string;
+  categories: string[];
+  content: string;
+}
+
+export const Home: React.FC = () => {
   //[]: useStateの初期値です。ここでは、最初は空の配列を設定しています。これは、まだ投稿データを取得していない状態を示します。
-  const [data, setData] = useState([]); //useStateの公式
+  const [data, setData] = useState<Post[]>([]); //useStateの公式
   //`setLoading(true)`を使って「読み込み中」を示し、データの取得が完了したら`setLoading(false)`で「読み込み完了」を示す。
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +24,7 @@ export const Home = () => {
         "https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts"
       );
       //await res.json()**: レスポンスをJSON形式に変換して、JavaScriptのオブジェクトとして扱えるようにします。｛posts｝は分割代入
-      const { posts } = await res.json();
+      const { posts }: { posts: Post[] } = await res.json(); // postsの型：post[]。postsの中にdataで取得したpost[]の内容が入る。
       //setPosts(data.posts)**: 取得したデータを`posts`の状態に設定します
       setData(posts); //7行目のdataの値がpostsになる
       setLoading(false); //読み込み完了、29行目以降をリターンする。loadingをfalseにしないと、27行目をリターンする
@@ -28,14 +37,14 @@ export const Home = () => {
 
   return data.map((post) => (
     <div key={post.id} className={classes.post}>
-      <Link to={`/post/${post.id}`} className={classes.Link}>
+      <Link to={`/post/${post.id}`} className={classes.postLink}>
         {/* `/posts/${post.id}`の``は、JSの書き方。`post.id`の値が`/posts/の後に続くURLを動的に作成しています。例えば、post.id`が`123`なら、リンク先は`/posts/123`になる*/}
 
-        <div className={classes.info}>
-          <p className={classes.date}>
+        <div className={classes.postInfo}>
+          <p className={classes.postDate}>
             {new Date(post.createdAt).toLocaleDateString()}
           </p>
-          <ul className={classes.categories}>
+          <ul className={classes.postCategories}>
             {post.categories.map((category, index) => (
               <li key={index}>{category}</li>
             ))}
@@ -44,7 +53,7 @@ export const Home = () => {
 
         <h2>{post.title}</h2>
         <p
-          className={classes.content}
+          className={classes.postContent}
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </Link>

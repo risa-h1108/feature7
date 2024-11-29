@@ -2,11 +2,11 @@ import React from "react";
 import classes from "../App.css";
 import { Link } from "react-router-dom";
 
-export const Header = () => {
+export const Header: React.FC = () => {
   return (
     <header className="header">
       {/*通常の`<a>タグはページを再読み込みして遷移するが、Link`を使用すると、ページを再読み込みせずにコンポーネントを切り替えることができる */}
-      <Link to="/" className={classes.headerLink}>
+      <Link to="/" className={classes.header}>
         Blog
       </Link>
       <Link to="/contact" className={classes.headerLink}>
