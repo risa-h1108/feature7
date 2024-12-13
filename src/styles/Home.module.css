@@ -6,24 +6,24 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.post h2 {
+.postTitle {
   margin-top: 0;
 }
 
-.post .info {
+.postInfo {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.post .date {
+.postDate {
   color: #888888;
   font-size: 0.9em;
   margin-right: 5px;
 }
 
-.post .categories {
+.postCategories {
   list-style: none;
   padding: 0;
   margin: 0 0 10px 0;
@@ -31,7 +31,7 @@
   gap: 10px;
 }
 
-.post .categories li {
+.postCategories li {
   padding: 5px 10px;
   border-radius: 5px;
   border: solid;
@@ -40,13 +40,13 @@
   color: rgb(9, 102, 252);
 }
 
-.post .content {
+.postContent {
   line-height: 1.6;
 }
 
 /*ブラウザ標準のCSSが当たっているため、
   特に指定しない場合、ブラウザの使用で、aタグにはunderlineや青文字が適用されてしまう形だったため、以下を追記。*/
-.post .Link {
+.postLink {
   text-decoration: none;
   color: #333;
 }

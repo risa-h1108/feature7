@@ -1,10 +1,21 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; //[useParams]という関数を利用することで、パラメータを取得することが可能になる。
-import type classes from "../styles/Detail.module.css";
+import classes from "../styles/Detail.module.css";
 
-export const Detail = () => {
+interface Post {
+  id: number;
+  title: string;
+  thumbnailUrl: string;
+  createdAt: string;
+  categories: string[];
+  content: string;
+}
+
+export const Detail: React.FC = () => {
   const { id } = useParams(); // urlからidを取得。http://localhost:3000/posts/1 というURLだったら、1を取得
-  const [post, setPost] = useState(null); //post:記事のデータを保存するための状態変数. setPostは`post`の値を更新するための関数.
+  //Postはデータが一つなので、配列[]ではない。<Post|null>(null)：null許容型：nullの型には動的な値が入るため、初期値にはnullにしとく。
+  const [post, setPost] = useState<Post | null>(null); //post:記事のデータを保存するための状態変数. setPostは`post`の値を更新するための関数.
+  //boolean:真偽を表す型。falseが既に入っているため、類推してくれるので記載必要なし。
   const [loading, setLoading] = useState(false); //loading:データの読み込み中かどうかを示す状態変数. setLoading:`loading`の値を更新するための関数
 
   // APIでpostsを取得する処理をuseEffectで実行します。
@@ -21,8 +32,9 @@ export const Detail = () => {
     fetcher(); //fetcher関数を呼び出して、データの取得を開始.
   }, []);
 
+  //35行目/36行目/41行目のどれかに当てはまった内容でreturnされるので、他のreturnになる可能性は潰さない。
   if (loading) return <div className={classes.postLoading}>読み込み中...</div>;
-  if (!loading && !post)
+  if (!post)
     return (
       <div className={classes.postError}>記事が見つかりませんでした。</div>
     ); // もしloadingも返ってこず、postも返ってこない場合、「記事が見つかりませんでした」という表示をさせる
